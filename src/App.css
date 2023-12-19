@@ -28,11 +28,8 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.safe-prompt {
+  width: max(40vw, 350px);
+  height: max(40vh, 350px);
+  border: solid 3px black;
 }
