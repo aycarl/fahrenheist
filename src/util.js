@@ -1,8 +1,8 @@
-function calculate_answer(guess, conversion_direction){
+function calculate_answer(input, conversion_direction){
     if (conversion_direction == 'c_to_f'){
-      return (guess * 1.8) + 32
+      return (input * 1.8) + 32
     }
-    else return (guess - 32) * 1.8
+    else return (input - 32) * 1.8
   }
   
   function get_difficulty_tolerance(level){
@@ -18,7 +18,7 @@ function calculate_answer(guess, conversion_direction){
   }
   
   function validate_guess(input, guess, conversion_direction, difficulty = 'easy'){
-    answer = calculate_answer(guess, conversion_direction)
+    answer = calculate_answer(input, conversion_direction)
     tolerance = get_difficulty_tolerance(difficulty)
     return calculate_correctness(guess, answer, tolerance)
   }  
