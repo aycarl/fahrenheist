@@ -116,9 +116,12 @@
 		{:else if showResult}
 			{#if result === 'win'}
 				<p class="result win">Correct!</p>
+				{#if easyMode}
+					<p class="result">The exact answer was {((fahrenheit - 32) * 5 / 9).toFixed(2)}°C.</p>
+				{/if}
 				<button type="button" class="restart selected" on:click={nextRound}>Next</button>
 			{:else}
-				<p class="result lose">Not quite! The correct answer was {((fahrenheit-32)*5/9).toFixed(2)}°C.</p>
+				<p class="result lose">Not quite! The correct answer was {((fahrenheit - 32) * 5 / 9).toFixed(2)}°C.</p>
 				<button type="button" class="restart selected" on:click={nextRound}>Next</button>
 			{/if}
 		{:else}
