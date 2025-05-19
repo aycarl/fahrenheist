@@ -2,9 +2,9 @@
 	import { confetti } from '@neoconfetti/svelte';
 	import { MediaQuery } from 'svelte/reactivity';
 
-	// Generate a random Fahrenheit value between 32 and 212 (freezing to boiling)
+	// Generate a random Fahrenheit value between -30 and 120 (typical weather range)
 	function randomFahrenheit() {
-		return Math.floor(Math.random() * (212 - 32 + 1)) + 32;
+		return Math.floor(Math.random() * (120 - (-30) + 1)) - 30;
 	}
 
 	let fahrenheit = randomFahrenheit();
