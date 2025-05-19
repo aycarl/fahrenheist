@@ -30,7 +30,7 @@
 		difficultyLocked = true;
 		const correctCelsius = (fahrenheit - 32) * 5 / 9;
 		const guess = Number(userCelsius);
-		const tolerance = easyMode ? 3 : 1;
+		const tolerance = easyMode ? 5 : 1;
 		if (!isNaN(guess) && Math.abs(guess - correctCelsius) <= tolerance) {
 			score += 1;
 			result = 'win';
@@ -81,7 +81,7 @@
 	<div class="difficulty-toggle">
 		<label>
 			<input type="checkbox" bind:checked={easyMode} disabled={difficultyLocked || score > 0 || wrong > 0 || showResult} />
-			Easy mode (±3°C)
+			Easy mode (±5°C)
 		</label>
 		<span class="difficulty-label">{easyMode ? 'Easy' : 'Hard'} mode</span>
 	</div>
