@@ -11,17 +11,38 @@
 	let userCelsius = '';
 	let result: 'win' | 'lose' | null = null;
 	let showResult = false;
+	let score = 0;
+	let wrong = 0;
+	let gameOver = false;
+	let gameWon = false;
 	const reducedMotion = new MediaQuery('(prefers-reduced-motion: reduce)');
 
 	function checkAnswer() {
 		const correctCelsius = (fahrenheit - 32) * 5 / 9;
 		const guess = Number(userCelsius);
 		if (!isNaN(guess) && Math.abs(guess - correctCelsius) <= 1) {
+			score += 1;
 			result = 'win';
 		} else {
+			wrong += 1;
 			result = 'lose';
 		}
 		showResult = true;
+		if (score >= 5) {
+			gameOver = true;
+			gameWon = true;
+		}
+		if (wrong >= 3) {
+			gameOver = true;
+			gameWon = false;
+		}
+	}
+
+	function nextRound() {
+		fahrenheit = randomFahrenheit();
+		userCelsius = '';
+		result = null;
+		showResult = false;
 	}
 
 	function restart() {
@@ -29,6 +50,10 @@
 		userCelsius = '';
 		result = null;
 		showResult = false;
+		score = 0;
+		wrong = 0;
+		gameOver = false;
+		gameWon = false;
 	}
 </script>
 
@@ -40,6 +65,10 @@
 <h1 class="visually-hidden">Fahrenheit Guessing Game</h1>
 
 <form on:submit|preventDefault={checkAnswer} class="game-form">
+	<div class="scoreboard">
+		<p>Score: {score} / 5</p>
+		<p>Wrong: {wrong} / 3</p>
+	</div>
 	<div class="grid playing">
 		<div class="row current">
 			<div class="letter exact">{fahrenheit}°F</div>
@@ -50,27 +79,34 @@
 					placeholder="?°C"
 					class="celsius-input"
 					aria-label="Enter Celsius value"
-					disabled={showResult}
+					disabled={showResult || gameOver}
 				/>
 			</div>
 		</div>
 	</div>
 	<div class="controls">
-		{#if showResult}
-			{#if result === 'win'}
-				<p class="result win">You won! 🎉</p>
+		{#if gameOver}
+			{#if gameWon}
+				<p class="result win">You won the game! 🎉</p>
 				<button type="button" class="restart selected" on:click={restart}>Play again?</button>
 			{:else}
+				<p class="result lose">Game over! You got 3 wrong. Try again?</p>
+				<button type="button" class="restart selected" on:click={restart}>Restart</button>
+			{/if}
+		{:else if showResult}
+			{#if result === 'win'}
+				<p class="result win">Correct!</p>
+				<button type="button" class="restart selected" on:click={nextRound}>Next</button>
+			{:else}
 				<p class="result lose">Not quite! The correct answer was {((fahrenheit-32)*5/9).toFixed(2)}°C.</p>
-				<button type="button" class="restart selected" on:click={restart}>Try again</button>
+				<button type="button" class="restart selected" on:click={nextRound}>Next</button>
 			{/if}
 		{:else}
 			<button type="submit" class="submit selected">Check</button>
 		{/if}
 	</div>
 </form>
-
-{#if result === 'win'}
+{#if gameOver && gameWon}
 	<div
 		style="position: absolute; left: 50%; top: 30%"
 		use:confetti={{
@@ -102,6 +138,14 @@
 		align-items: center;
 		justify-content: center;
 		gap: 1rem;
+	}
+	.scoreboard {
+		display: flex;
+		gap: 2rem;
+		justify-content: center;
+		margin-bottom: 1rem;
+		font-size: 1.1rem;
+		font-weight: 500;
 	}
 	.grid {
 		--width: min(100vw, 40vh, 380px);
