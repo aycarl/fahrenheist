@@ -15,12 +15,23 @@
 	let wrong = 0;
 	let gameOver = false;
 	let gameWon = false;
+	let easyMode = false;
+	let difficultyLocked = false;
 	const reducedMotion = new MediaQuery('(prefers-reduced-motion: reduce)');
 
+	function setEasyMode(val: boolean) {
+		console.log('setEasyMode', val);
+		if (score === 0 && wrong === 0 && !gameOver && !showResult) {
+			easyMode = val;
+		}
+	}
+
 	function checkAnswer() {
+		difficultyLocked = true;
 		const correctCelsius = (fahrenheit - 32) * 5 / 9;
 		const guess = Number(userCelsius);
-		if (!isNaN(guess) && Math.abs(guess - correctCelsius) <= 1) {
+		const tolerance = easyMode ? 3 : 1;
+		if (!isNaN(guess) && Math.abs(guess - correctCelsius) <= tolerance) {
 			score += 1;
 			result = 'win';
 		} else {
@@ -54,6 +65,8 @@
 		wrong = 0;
 		gameOver = false;
 		gameWon = false;
+		easyMode = false;
+		difficultyLocked = false;
 	}
 </script>
 
@@ -65,6 +78,13 @@
 <h1 class="visually-hidden">Fahrenheit Guessing Game</h1>
 
 <form on:submit|preventDefault={checkAnswer} class="game-form">
+	<div class="difficulty-toggle">
+		<label>
+			<input type="checkbox" bind:checked={easyMode} disabled={difficultyLocked || score > 0 || wrong > 0 || showResult} />
+			Easy mode (±3°C)
+		</label>
+		<span class="difficulty-label">{easyMode ? 'Easy' : 'Hard'} mode</span>
+	</div>
 	<div class="scoreboard">
 		<p>Score: {score} / 5</p>
 		<p>Wrong: {wrong} / 3</p>
@@ -138,6 +158,17 @@
 		align-items: center;
 		justify-content: center;
 		gap: 1rem;
+	}
+	.difficulty-toggle {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 1rem;
+	}
+	.difficulty-label {
+		font-size: 1rem;
+		font-weight: 500;
+		color: #666;
 	}
 	.scoreboard {
 		display: flex;
