@@ -1,26 +1,21 @@
 <svelte:head>
-	<title>About</title>
-	<meta name="description" content="About this app" />
+	<title>About Fahrenheist</title>
+	<meta name="description" content="About the Fahrenheist game" />
 </svelte:head>
 
 <div class="text-column">
-	<h1>About this app</h1>
+	<h1>About Fahrenheist</h1>
 
 	<p>
-		This is a <a href="https://svelte.dev/docs/kit">SvelteKit</a> app. You can make your own by typing
-		the following into your command line and following the prompts:
+		Fahrenheist is a fun and interactive game designed to help you learn and practice converting temperatures between Fahrenheit and Celsius.
 	</p>
-
-	<pre>npx sv create</pre>
-
 	<p>
-		The page you're looking at is purely static HTML, with no client-side interactivity needed.
-		Because of that, we don't need to load any JavaScript. Try viewing the page's source, or opening
-		the devtools network panel and reloading.
+		The game presents you with a random temperature in Fahrenheit, and your goal is to guess the equivalent temperature in Celsius. You'll get immediate feedback on your guess, and you can track your score as you play.
 	</p>
-
 	<p>
-		The <a href="/sverdle">Sverdle</a> page illustrates SvelteKit's data loading and form handling. Try
-		using it with JavaScript disabled!
+		This application is built using <a href="https://svelte.dev/docs/kit">SvelteKit</a>, a modern web framework for building fast and resilient web applications.
+	</p>
+	<p>
+		Challenge yourself and see how quickly you can master temperature conversions with Fahrenheist!
 	</p>
 </div>
