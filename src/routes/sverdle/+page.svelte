@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { confetti } from '@neoconfetti/svelte';
 	import { MediaQuery } from 'svelte/reactivity';
+	import HintModal from './HintModal.svelte'; // Import the modal
 
 	// Generate a random Fahrenheit value between -30 and 120 (typical weather range)
 	function randomFahrenheit() {
@@ -17,7 +18,12 @@
 	let gameWon = false;
 	let easyMode = false;
 	let difficultyLocked = false;
+	let showHintModal = false; // Variable to control modal visibility
 	const reducedMotion = new MediaQuery('(prefers-reduced-motion: reduce)');
+
+	function toggleHintModal() {
+		showHintModal = !showHintModal;
+	}
 
 	function setEasyMode(val: boolean) {
 		console.log('setEasyMode', val);
@@ -76,6 +82,8 @@
 </svelte:head>
 
 <h1 class="visually-hidden">Fahrenheit Guessing Game</h1>
+
+<button type="button" class="hint-button" on:click={toggleHintModal}>Show Hints</button>
 
 <form on:submit|preventDefault={checkAnswer} class="game-form">
 	<div class="difficulty-toggle">
@@ -141,6 +149,8 @@
 		}}
 	></div>
 {/if}
+
+<HintModal bind:showModal={showHintModal} on:close={() => showHintModal = false} />
 
 <style>
 	.visually-hidden {
@@ -254,5 +264,20 @@
 		background: var(--color-theme-1);
 		color: white;
 		outline: none;
+	}
+	.hint-button {
+		background-color: var(--color-theme-2, #40b3ff);
+		color: white;
+		border: none;
+		padding: 0.5rem 1rem;
+		border-radius: 4px;
+		cursor: pointer;
+		font-size: 0.9rem;
+		margin-bottom: 1rem; /* Add some space below the button */
+		align-self: center; /* Center the button if the parent is a flex container */
+	}
+
+	.hint-button:hover {
+		background-color: var(--color-theme-1, #ff3e00);
 	}
 </style>
